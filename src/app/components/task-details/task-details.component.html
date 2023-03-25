@@ -1,0 +1,83 @@
+<div *ngIf="viewMode; else editable">
+    <div *ngIf="currentTask.id">
+      <h4>Task</h4>      
+      <div>
+        <label><strong>Description:</strong></label>
+        {{ currentTask.description }}
+      </div>
+      <div>
+        <label><strong>Status:</strong></label>
+        {{ currentTask.status }}
+      </div>
+  
+      <a
+        class="badge badge-warning"
+        routerLink="/tasks/{{ currentTask.id }}"
+      >
+        Edit
+      </a>
+    </div>
+  
+    <div *ngIf="!currentTask">
+      <br />
+      <p>Please click on a Task...</p>
+    </div>
+  </div>
+  
+  <ng-template #editable>
+    <div *ngIf="currentTask.id" class="edit-form">
+      <h4>Task</h4>
+      <form>        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            id="description"
+            [(ngModel)]="currentTask.description"
+            name="description"
+          />
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="date"
+              required
+              [(ngModel)]="currentTask.date"
+              name="date"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" name="status" required [(ngModel)]="currentTask.status">
+                <option value="" disabled>Select Status</option>
+                <option *ngFor="let status of taskStatusSelected" [ngValue]="status" >{{taskStatus2LabelMapping}}</option>
+              </select>            
+        </div>  
+        
+      </form>  
+      
+  
+      <button class="badge badge-danger mr-2" (click)="deleteTask()">
+        Delete
+      </button>
+  
+      <button
+        type="submit"
+        class="badge badge-success mb-2"
+        (click)="updateTask()"
+      >
+        Update
+      </button>
+      <p>{{ message }}</p>
+    </div>
+  
+    <div *ngIf="!currentTask.id">
+      <br />
+      <p>Cannot access this Task...</p>
+    </div>
+  </ng-template>
