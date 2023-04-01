@@ -1,8 +1,8 @@
-export class Task {
+export interface Task {
     taskId?: any;
     description?: string;
-    date?: Date;
-    status?: TaskStatusEnum;
+    date?: string;
+    status?: TaskStatusEnum;    
 }
  export enum TaskStatusEnum {
     CREATE = 1,
@@ -21,3 +21,11 @@ export class Task {
     [TaskStatusEnum.COMPLETED]: "Completado",
     [TaskStatusEnum.DONE]: "Feito",
 };
+
+let mapEnum2LabelMapping : Map<string, string> = new Map<string,string>(); 
+
+for (const [key, value] of Object.entries(TaskStatus2LabelMapping)) {
+    mapEnum2LabelMapping.set(key, value);
+}   
+
+export const enum2LabelMapping = mapEnum2LabelMapping;

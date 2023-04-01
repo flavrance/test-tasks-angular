@@ -1,84 +1,100 @@
 <div *ngIf="viewMode; else editable">
-    <div *ngIf="currentTask.taskId">
-      <h4>Task</h4>      
-      <div>
-        <label><strong>Description:</strong></label>
-        {{ currentTask.description }}
-      </div>
-      <div>
-        <label><strong>Status:</strong></label>
-        {{ currentTask.status }}
-      </div>
-  
-      <a
-        class="badge badge-warning"
-        routerLink="['/tasks/', currentTask.id]"
-      >
-        Edit
-      </a>
+  <div *ngIf="taskId">
+    <h4>Task</h4>      
+    <div>
+      <label><strong>Description:</strong></label>
+      {{ currentTask.description }}
     </div>
-  
-    <div *ngIf="!currentTask">
-      <br />
-      <p>Please click on a Task...</p>
+    <div>
+      <label><strong>Status:</strong></label>
+      {{ currentTask.status }}
     </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="['/tasks/', currentTask.id]"
+    >
+      Edit
+    </a>
   </div>
-  
-  <ng-template #editable>
-    <div *ngIf="currentTask.taskId" class="edit-form">
-      <h4>Task</h4>
-      <form>        
-        <div class="form-group">
-          <label for="description">Description</label>
+
+  <div *ngIf="!currentTask">
+    <br />
+    <p>Please click on a Task...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div class="edit-form">    
+    <h4>Task</h4>
+    <a href="#" routerLink="/tasks" class="btn btn-primary">Back</a>
+    <form [formGroup]="form">        
+      <div class="form-group">
+        <input type="hidden" formControlName="taskId" name="taskId" id="taskId" [(ngModel)]="currentTask.taskId" />
+        <label for="description">Description</label>
+        <input 
+          formControlName="description"
+          type="text"
+          class="form-control"
+          id="description"
+          [(ngModel)]="currentTask.description"
+          name="description"
+          required
+        />
+        <div *ngIf="f['description'].touched && f['description'].invalid" class="alert alert-danger">
+          <div *ngIf="f['description'].errors && f['description'].errors['required']">Description is required.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+          <label for="date">Date</label>
           <input
-            type="text"
+            formControlName="date"
+            type="date"
             class="form-control"
-            id="description"
-            [(ngModel)]="currentTask.description"
-            name="description"
+            id="date"
+            required
+            [(ngModel)]="currentTask.date" 
+            (ngModelChange)="currentTask.date = $event"
+            placeholder="yyyy-MM-dd"
+            [value]="currentTask.date"
+            name="date"
           />
-        </div>
+          <div *ngIf="f['date'].touched && f['date'].invalid" class="alert alert-danger">
+            <div *ngIf="f['date'].errors && f['date'].errors['required']">Date is required.</div>
+          </div>
+      </div>
 
-        <div class="form-group">
-            <label for="date">Date</label>
-            <input
-              type="date"
-              class="form-control"
-              id="date"
-              required
-              [(ngModel)]="currentTask.date"
-              placeholder="yyyy-MM-dd"
-              name="date"
-            />
-        </div>
-
-        <div class="form-group">
-            <label for="status">Status</label>
-            <select id="status" name="status" required [(ngModel)]="currentTask.status">
-                <option value="" disabled>Select Status</option>
-                <option *ngFor="let status of taskStatus2LabelMapping | keyvalue" [ngValue]="currentTask.status" >{{status.value}}</option>
-              </select>            
-        </div>  
-        
-      </form>  
+      <div class="form-group">
+          <label for="status">Status</label>
+          <select id="status" formControlName="status" name="status" required [(ngModel)]="selectedValue">
+            <option value="" disabled>Select Status</option>
+            <option *ngFor="let status of taskStatus2LabelMapping | keyvalue" [ngValue]="status.key" >{{status.value}}</option>
+          </select>            
+          <div *ngIf="f['status'].touched && f['status'].invalid" class="alert alert-danger">
+            <div *ngIf="f['status'].errors && f['status'].errors['required']">Status is required.</div>
+          </div>
+      </div>  
       
-  
-      <button class="badge badge-danger mr-2" (click)="deleteTask()">
-        Delete
-      </button>
-  
-      <button
-        type="submit"
-        class="badge badge-success mb-2"
-        (click)="updateTask()"
-      >
-        Update
-      </button>
-      <p>{{ message }}</p>
-    </div>
-  
-    <div *ngIf="!currentTask.taskId">
-      <br />
-      <p>Cannot access this Task...</p>
-    </div>
-  </ng-template>
+    </form>  
+    
+
+    <button class="badge badge-danger mr-2" (click)="deleteTask()">
+      Delete
+    </button>
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateTask()"
+    >
+      Update
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentTask.taskId">
+    <br />
+    <p>Cannot access this Task...</p>
+  </div>
+</ng-template>

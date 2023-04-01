@@ -1,5 +1,6 @@
 import { Component,OnInit  } from '@angular/core';
-import { Task } from 'src/app/models/task.model';
+import { elementAt } from 'rxjs';
+import { Task, enum2LabelMapping } from 'src/app/models/task.model';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -9,10 +10,12 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class TaskListComponent implements OnInit {
   tasks?: Task[];
+  tasksView?: any[] = [];
   currentTask: Task = {};
   currentIndex = -1;
   description = '';
-
+  
+  
   constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
@@ -23,6 +26,15 @@ export class TaskListComponent implements OnInit {
     this.taskService.getAll()
       .subscribe({
         next: (data) => {
+          data.forEach(element => {
+            const task = {
+              taskId: element.taskId,              
+              description: element.description,
+              date: element.date,
+              status: this.taskStatus2LabelMapping(element.status?.toString()),
+            };
+            this.tasksView?.push(task);
+          });
           this.tasks = data;
           console.log(data);
         },
@@ -50,6 +62,10 @@ export class TaskListComponent implements OnInit {
         },
         error: (e) => console.error(e)
       });
+  }
+
+  taskStatus2LabelMapping(index : any) : any {
+    return enum2LabelMapping.get(index);
   }
 
   searchDescription(description: any): void {

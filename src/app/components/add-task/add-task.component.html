@@ -1,44 +1,56 @@
 
 <div>
+  <a href="#" routerLink="/tasks/" class="btn btn-primary">Back</a>
     <div class="submit-form">
-      <div *ngIf="!submitted">
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input
-            class="form-control"
-            id="description"
-            required
-            [(ngModel)]="task.description"
-            name="description"
-          />
-        </div>
-        <div class="form-group">
-            <label for="date">Date</label>
+      <form [formGroup]="form">
+        <div *ngIf="!submitted">
+          <div class="form-group">
+            <label for="description">Description</label>
             <input
-              type="date"
               class="form-control"
-              id="date"
-              required
-              [(ngModel)]="task.date"
-              placeholder="yyyy-MM-dd"
-              name="date"
+              formControlName="description"
+              id="description"
+              required              
+              name="description"
             />
-        </div>
-
-        <div class="form-group">
-            <label for="status">Status</label>
-            <select id="status" name="status" class="form-control" required [(ngModel)]="task.status">
-                <option value="" disabled>Select Status</option>
-                <option *ngFor="let status of taskStatus2LabelMapping | keyvalue" [ngValue]="status.key" >{{status.value}}</option>
+            <div *ngIf="f['description'].touched && f['description'].invalid" class="alert alert-danger">
+              <div *ngIf="f['description'].errors && f['description'].errors['required']">Description is required.</div>
+            </div>
+          </div>
+          <div class="form-group">
+              <label for="date">Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="date"
+                required                
+                placeholder="dd/MM/yyyy"
+                name="date"              
+                formControlName="date"
+              />
+              <div *ngIf="f['date'].touched && f['date'].invalid" class="alert alert-danger">
+                <div *ngIf="f['date'].errors && f['date'].errors['required']">Date is required.</div>
+              </div>
+          </div>
+  
+          <div class="form-group">
+              <label for="status">Status</label>
+              <select id="status" name="status" formControlName="status" class="form-control" required>
+                  <option value="" disabled>Select Status</option>
+                  <option *ngFor="let status of taskStatus2LabelMapping | keyvalue" [ngValue]="status.key" >{{status.value}}</option>
               </select>            
+              <div *ngIf="f['status'].touched && f['status'].invalid" class="alert alert-danger">
+                <div *ngIf="f['status'].errors && f['status'].errors['required']">Date is required.</div>
+              </div>
+          </div>
+    
+          <button (click)="saveTask()" class="btn btn-success" [disabled]="!form.valid">Submit</button>
         </div>
-  
-        <button (click)="saveTask()" class="btn btn-success">Submit</button>
-      </div>
-  
-      <div *ngIf="submitted">
-        <h4>Task was submitted successfully!</h4>
-        <button class="btn btn-success" (click)="newTask()">Add</button>
-      </div>
+    
+        <div *ngIf="submitted">
+          <h4>Task was submitted successfully!</h4>
+          <button class="btn btn-success" (click)="newTask()">Add</button>
+        </div>
+      </form>      
     </div>
   </div>

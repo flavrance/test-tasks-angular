@@ -21,28 +21,26 @@
     </div>
     <div class="col-md-6">
       <h4>Tasks List</h4>
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          *ngFor="let task of tasks; let i = index"
-          [class.active]="i == currentIndex"
-          (click)="setActiveTask(task, i)"
-        >
-          {{ task.description }} 
-          <span class="edit" routerLink="/tasks/{{task.taskId}}">
-            <button type="button" class="btn btn-success btn-sm">Edit</button>
-          </span>          
-        </li>
-      </ul>
-  
-      <!--<button class="m-3 btn btn-sm btn-danger" (click)="removeAllTasks()">
-        Remove All
-      </button>-->
-    </div>
-    <div class="col-md-6">
-      <app-task-details
-        [viewMode]="true"
-        [currentTask]="currentTask"
-      ></app-task-details>
-    </div>
+      <table class="table table-striped">
+        <caption>Tasks Lists</caption>
+        <thead>
+              <tr>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+        </thead>
+        <tbody>
+              <tr *ngFor="let task of tasksView; let i = index" [class.active]="i == currentIndex" (click)="setActiveTask(task, i)">
+                <td>{{ task.description }}</td>
+                <td>{{ task.date }}</td>
+                <td>{{ task.status }}</td>
+                <td>                  
+                  <a href="#" [routerLink]="['/tasks/', task.taskId]" class="btn btn-primary" style="margin-right:5px">Edit</a>                  
+                </td>
+              </tr>
+        </tbody>
+    </table>      
+    </div>   
   </div>
