@@ -2,6 +2,7 @@
     <div class="col-md-8">
       <div class="input-group mb-3">
         <input
+          id="description"
           type="text"
           class="form-control"
           placeholder="Search by description"
@@ -11,7 +12,7 @@
           <button
             class="btn btn-outline-secondary"
             type="button"
-            (click)="searchDescription()"
+            (click)="searchDescription(this.description)"
           >
             Search
           </button>
@@ -27,7 +28,10 @@
           [class.active]="i == currentIndex"
           (click)="setActiveTask(task, i)"
         >
-          {{ task.description }}
+          {{ task.description }} 
+          <span class="edit" routerLink="/tasks/{{task.taskId}}">
+            <button type="button" class="btn btn-success btn-sm">Edit</button>
+          </span>          
         </li>
       </ul>
   

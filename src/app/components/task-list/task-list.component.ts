@@ -52,11 +52,11 @@ export class TaskListComponent implements OnInit {
       });
   }
 
-  searchDescription(): void {
+  searchDescription(description: any): void {
     this.currentTask = {};
     this.currentIndex = -1;
 
-    this.taskService.findByDescription(this.description)
+    this.taskService.findByDescription(description)
       .subscribe({
         next: (data) => {
           this.tasks = data;

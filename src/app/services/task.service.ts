@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Task } from '../models/task.model';
 
-const baseUrl = 'http://localhost:61858/api/Tasks';
+const baseUrl = 'https://localhost:52516/api/Tasks';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class TaskService {
   }
 
   update(id: any, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
+    return this.http.put(`${baseUrl}/`, data);
   }
 
   delete(id: any): Observable<any> {

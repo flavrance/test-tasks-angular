@@ -1,5 +1,5 @@
 <div *ngIf="viewMode; else editable">
-    <div *ngIf="currentTask.id">
+    <div *ngIf="currentTask.taskId">
       <h4>Task</h4>      
       <div>
         <label><strong>Description:</strong></label>
@@ -12,7 +12,7 @@
   
       <a
         class="badge badge-warning"
-        routerLink="/tasks/{{ currentTask.id }}"
+        routerLink="['/tasks/', currentTask.id]"
       >
         Edit
       </a>
@@ -25,7 +25,7 @@
   </div>
   
   <ng-template #editable>
-    <div *ngIf="currentTask.id" class="edit-form">
+    <div *ngIf="currentTask.taskId" class="edit-form">
       <h4>Task</h4>
       <form>        
         <div class="form-group">
@@ -47,6 +47,7 @@
               id="date"
               required
               [(ngModel)]="currentTask.date"
+              placeholder="yyyy-MM-dd"
               name="date"
             />
         </div>
@@ -55,7 +56,7 @@
             <label for="status">Status</label>
             <select id="status" name="status" required [(ngModel)]="currentTask.status">
                 <option value="" disabled>Select Status</option>
-                <option *ngFor="let status of taskStatusSelected" [ngValue]="status" >{{taskStatus2LabelMapping}}</option>
+                <option *ngFor="let status of taskStatus2LabelMapping | keyvalue" [ngValue]="currentTask.status" >{{status.value}}</option>
               </select>            
         </div>  
         
@@ -76,7 +77,7 @@
       <p>{{ message }}</p>
     </div>
   
-    <div *ngIf="!currentTask.id">
+    <div *ngIf="!currentTask.taskId">
       <br />
       <p>Cannot access this Task...</p>
     </div>

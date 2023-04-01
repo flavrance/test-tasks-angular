@@ -32,12 +32,12 @@ export class TaskDetailsComponent implements OnInit {
   ngOnInit(): void {
     if (!this.viewMode) {
       this.message = '';
-      this.getTask(this.route.snapshot.params["id"]);
+      this.getTask(this.route.snapshot.params["taskId"]);
     }
   }
 
-  getTask(id: string): void {
-    this.taskService.get(id)
+  getTask(taskId: string): void {
+    this.taskService.get(taskId)
       .subscribe({
         next: (data) => {
           this.currentTask = data;
@@ -50,7 +50,7 @@ export class TaskDetailsComponent implements OnInit {
   updateTask(): void {
     this.message = '';
 
-    this.taskService.update(this.currentTask.id, this.currentTask)
+    this.taskService.update(this.currentTask.taskId, this.currentTask)
       .subscribe({
         next: (res) => {
           console.log(res);
@@ -61,7 +61,7 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   deleteTask(): void {
-    this.taskService.delete(this.currentTask.id)
+    this.taskService.delete(this.currentTask.taskId)
       .subscribe({
         next: (res) => {
           console.log(res);

@@ -1,5 +1,5 @@
 export class Task {
-    id?: any;
+    taskId?: any;
     description?: string;
     date?: Date;
     status?: TaskStatusEnum;

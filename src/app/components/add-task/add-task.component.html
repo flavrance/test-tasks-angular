@@ -20,6 +20,7 @@
               id="date"
               required
               [(ngModel)]="task.date"
+              placeholder="yyyy-MM-dd"
               name="date"
             />
         </div>
@@ -28,7 +29,7 @@
             <label for="status">Status</label>
             <select id="status" name="status" class="form-control" required [(ngModel)]="task.status">
                 <option value="" disabled>Select Status</option>
-                <option *ngFor="let status of taskStatus2LabelMapping | keyvalue" [ngValue]="status" >{{status.value}}</option>
+                <option *ngFor="let status of taskStatus2LabelMapping | keyvalue" [ngValue]="status.key" >{{status.value}}</option>
               </select>            
         </div>
   
